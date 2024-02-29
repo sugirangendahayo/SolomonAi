@@ -1,2 +1,2 @@
 # SolomonAi
-https://sugirangendahayo.github.io/SolomonAi/SolomonAi.html
+https://sugirangendahayo.github.io/solomonAi/SolomonAi.html
