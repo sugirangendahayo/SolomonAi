@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+  <link rel="stylesheet" href="SolomonAi.css">
+</head>
+
+<body>
+<div class="solo">
+  <h2>Solomon Ai</h2>
+  <p id="demo">Ask me anything you want</p>
+  <p id="result"></p>
+  <input type="text" id="prompt" placeholder="Enter your prompt"><br><br>
+  <button  id="btn">Search</button>
+</div>
+
+<script>
+const API_KEY = "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";
+const API_URL = "https://api.openai.com/v1/chat/completions";
+const prompt = document.getElementById("prompt");
+const btn = document.getElementById("btn");
+const result = document.getElementById("result");
+
+const generate = async () => {
+  if(!prompt.value){
+    alert("Please Enter a prompt");
+    return;
+  }
+  btn.disabled = true;
+  result.textContent = "Generating...";
+    try {
+        const response = await fetch(API_URL, { // Opening bracket added
+            method: "POST", 
+            headers: { 
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${API_KEY}`  // Closing bracket added
+            }, 
+            body: JSON.stringify({  
+                model: "gpt-3.5-turbo",                                       
+                messages: [{ role: "user", content: prompt.value }] // Closing bracket added
+            }) 
+        });  
+
+      const data = await response.json(); // Added 'await' */
+       /* console.log(data.choices[0].message.content);*/
+        result.textContent = data.choices[0].message.content
+
+    } catch (error) { 
+      result.innerText = "Error occured while generating...";
+        console.error("Error fetching data:", error); // Add an error handler
+    }
+    finally{
+      btn.disabled = false;
+    }
+}
+
+btn.addEventListener("click", generate);
+prompt.addEventListener("keyup", (event) => {
+  if(event.key === "Enter"){
+    generate();
+  }
+}); 
+  </script>
+
+</body>
+
+</html>
